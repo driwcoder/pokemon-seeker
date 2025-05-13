@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Search, Loader2 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
@@ -63,7 +64,7 @@ export default function PokemonPage() {
       if (!response.ok) throw new Error('Pokemon not found');
       const data = await response.json();
       setPokemonList([data]);
-    } catch (err) {
+    } catch {
       setError('Pokemon not found. Please try another name.');
       setPokemonList([]);
     } finally {
@@ -84,7 +85,7 @@ export default function PokemonPage() {
         return res.json();
       }));
       setPokemonList(pokemonData);
-    } catch (err) {
+    } catch {
       setError('Failed to load Pokemon by type. Please try again.');
       setPokemonList([]);
     } finally {
@@ -206,14 +207,15 @@ export default function PokemonPage() {
                   </div>
                   <div className="p-4">
                     <div className="flex justify-center mb-4">
-                      <img
+                      <Image
                         src={
                           pokemon.sprites.other['official-artwork'].front_default ||
                           pokemon.sprites.front_default
                         }
                         alt={pokemon.name}
-                        className="h-40 w-40 object-contain"
-                        loading="lazy"
+                        width={160}
+                        height={160}
+                        className="object-contain"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
